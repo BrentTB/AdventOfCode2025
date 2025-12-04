@@ -53,7 +53,7 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
         cout << "\n";          \
     }
 
-const bool part1 = true; // set to false for part 2
+const bool part1 = false; // set to false for part 2
 
 // TODO: Extract this into a reusable module
 const string partNum = part1 ? "1" : "2";
@@ -211,25 +211,91 @@ bool compareOutWithExpected(int fileNumber)
 ...
 */
 
+bool hasFewerThanXNeighbours(const vstr &grid, int row, int col, int numNeighbours)
+{
+    int count = 0;
+    int rows = grid.size();
+    int cols = grid[0].size();
+    for (int dr = -1; dr <= 1; dr++)
+    {
+        for (int dc = -1; dc <= 1; dc++)
+        {
+            if (dr == 0 && dc == 0)
+                continue; // skip self
+            int nr = row + dr;
+            int nc = col + dc;
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols)
+            {
+                if (grid[nr][nc] == '@')
+                {
+                    count++;
+                    if (count >= numNeighbours)
+                        return false;
+                }
+            }
+        }
+    }
+    return true;
+}
 string p1(stringstream input)
 {
-
+    vstr lines;
     string x;
     while (getline(input, x))
     {
+        lines.push_back(x);
     }
 
-    return "";
+    ll count = 0;
+    fo(i, 0, lines.size())
+    {
+        fo(j, 0, lines[i].size())
+        {
+            if (lines[i][j] == '@')
+            {
+                if (hasFewerThanXNeighbours(lines, i, j, 4))
+                {
+                    count++;
+                }
+            }
+        }
+    }
+
+    return to_string(count);
 }
 string p2(stringstream input)
 {
 
+    vstr lines;
     string x;
     while (getline(input, x))
     {
+        lines.push_back(x);
     }
 
-    return "";
+    ll count = 0;
+    bool changed = false;
+    do
+    {
+        changed = false;
+        fo(i, 0, lines.size())
+        {
+            fo(j, 0, lines[i].size())
+            {
+                if (lines[i][j] == '@')
+                {
+                    if (hasFewerThanXNeighbours(lines, i, j, 4))
+                    {
+                        count++;
+                        lines[i][j] = '.';
+                        changed = true;
+                    }
+                }
+            }
+        }
+    } while (changed);
+
+    return to_string(count);
 }
 
 int main()
