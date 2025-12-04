@@ -222,11 +222,11 @@ bool hasFewerThanXNeighbours(const vstr &grid, int row, int col, int numNeighbou
         {
             if (dr == 0 && dc == 0)
                 continue; // skip self
-            int nr = row + dr;
-            int nc = col + dc;
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols)
+            int newRow = row + dr;
+            int newCol = col + dc;
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols)
             {
-                if (grid[nr][nc] == '@')
+                if (grid[newRow][newCol] == '@')
                 {
                     count++;
                     if (count >= numNeighbours)
