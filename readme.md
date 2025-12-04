@@ -20,6 +20,7 @@ string p2(stringstream input){...}
 ```
 
 - These functions return a string to be written to an output file once computed
+- As this file is constantly being improved/editted, some older days' `solution.cpp` files will look different to newer days
 
 ## Folder structure
 

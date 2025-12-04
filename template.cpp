@@ -21,7 +21,7 @@ using namespace std;
 #define pairint pair<int, int>
 #define vpairll vector<pair<long long, long long>>
 #define vpairint vector<pair<int, int>>
-#define print(x) cout << x << "\n"
+#define print(x) cout << (x) << "\n"
 #define mod(a, b) ((a % b) + b) % b
 
 template <typename T>
@@ -100,7 +100,7 @@ void writeOutputToFile(const string &output, int fileNumber)
     print("Wrote output to " + filename);
 }
 
-void compareOutWithExpected(int fileNumber)
+bool compareOutWithExpected(int fileNumber)
 {
     string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
     string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
@@ -184,12 +184,14 @@ void compareOutWithExpected(int fileNumber)
         if (outContent == expectedContent)
         {
             print("Output matches expected for file " + to_string(fileNumber) + ".");
+            return true;
         }
         else
         {
             print("Output does NOT match expected for file " + to_string(fileNumber) + ".");
         }
     }
+    return false;
 }
 
 /* File names:
@@ -236,6 +238,7 @@ int main()
     cin.tie(0);
 
     auto inputs = getInputFromFile();
+    int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
@@ -245,13 +248,22 @@ int main()
         {
             string out = p1(stringstream(input));
             writeOutputToFile(out, i);
-            compareOutWithExpected(i);
+            errors += compareOutWithExpected(i);
         }
         else
         {
             string out = p2(stringstream(input));
             writeOutputToFile(out, i);
-            compareOutWithExpected(i);
+            errors += compareOutWithExpected(i);
         }
+    }
+
+    if (errors > 0)
+    {
+        print("ERROR: " + to_string(errors) + " input" + (errors == 1 ? " was " : "s were ") + "incorrect");
+    }
+    else
+    {
+        print("SUCCESS: All inputs were correct")
     }
 }
