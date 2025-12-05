@@ -11,7 +11,7 @@ using namespace std;
 // #define endl "\n"
 #define elif else if
 #define fo(i, a, b) for (ll i = a; i < (ll)b; i++)
-#define foe(a, b) for (auto a : b)
+#define foe(a, b) for (auto &a : b)
 #define rfo(i, b, a) for (ll i = a - 1; i >= b; i--)
 #define v(i) vector<i>
 #define vll vector<long long>
@@ -53,7 +53,7 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
         cout << "\n";          \
     }
 
-const bool part1 = true; // set to false for part 2
+const bool part1 = false; // set to false for part 2
 
 // TODO: Extract this into a reusable module
 const string partNum = part1 ? "1" : "2";
@@ -213,24 +213,168 @@ bool compareOutWithExpected(int fileNumber)
 
 string p1(stringstream input)
 {
-
+    vpairll fresh;
+    vll nums;
     string x;
+    bool onFresh = true;
     while (getline(input, x))
     {
+        if (x == "")
+        {
+            onFresh = false;
+            continue;
+        }
+        if (onFresh)
+        {
+            auto ind = x.find('-');
+            fresh.push_back({stol(x.substr(0, ind)), stol(x.substr(ind + 1))});
+        }
+        else
+        {
+            nums.push_back(stol(x));
+        }
     }
 
-    ll val = 0;
-    return to_string(val);
+    ll numFresh = 0;
+    foe(num, nums)
+    {
+        foe(val, fresh)
+        {
+            if (num >= val.first && num <= val.second)
+            {
+                numFresh++;
+                break;
+            }
+        }
+    }
+
+    return to_string(numFresh);
 }
+
+void addToRange(pairll range, vpairll &done)
+{
+    bool changed = false;
+    foe(val, done)
+    {
+        // completely enclosed by a done range
+        if (val.first <= range.first && val.second >= range.second)
+        {
+            changed = true;
+            continue;
+        }
+        // overlapping range on the right
+        elif (val.first >= range.first && val.second >= range.second && val.first <= range.second)
+        {
+            changed = true;
+            val.first = range.first;
+            continue;
+        }
+        // overlapping range on the left
+        elif (val.first <= range.first && val.second <= range.second && val.second >= range.first)
+        {
+            changed = true;
+            val.second = range.second;
+            continue;
+        }
+    }
+    // if it has no overlap, add it to the done array
+    if (!changed)
+    {
+        done.push_back(range);
+    }
+}
+
+void combineRange(vpairll &done)
+{
+    bool changed = true;
+    while (changed)
+    {
+        changed = false;
+        fo(i, 0, done.size())
+        {
+            fo(j, i + 1, done.size())
+            {
+                pairll range1 = done[i];
+                pairll range2 = done[j];
+                // overlapping range on the right
+                if (range2.first >= range1.first && range2.second >= range1.second && range2.first <= range1.second)
+                {
+                    changed = true;
+                    done[i].second = range2.second;
+                    done.erase(done.begin() + j);
+                    break;
+                }
+                // overlapping range on the left
+                elif (range2.first <= range1.first && range2.second <= range1.second && range2.second >= range1.first)
+                {
+                    changed = true;
+                    done[i].first = range2.first;
+                    done.erase(done.begin() + j);
+                    break;
+                }
+                // completely enclosed by a done range
+                elif (range2.first >= range1.first && range2.second <= range1.second)
+                {
+                    changed = true;
+                    done.erase(done.begin() + j);
+                    break;
+                }
+                // completely encloses a done range
+                elif (range2.first <= range1.first && range2.second >= range1.second)
+                {
+                    changed = true;
+                    done[i] = range2;
+                    done.erase(done.begin() + j);
+                    break;
+                }
+            }
+            if (changed)
+            {
+                break;
+            }
+        }
+    }
+}
+
 string p2(stringstream input)
 {
+    vpairll fresh;
+    vll nums;
     string x;
+    bool onFresh = true;
     while (getline(input, x))
     {
+        if (x == "")
+        {
+            onFresh = false;
+            continue;
+        }
+        if (onFresh)
+        {
+            auto ind = x.find('-');
+            fresh.push_back({stol(x.substr(0, ind)), stol(x.substr(ind + 1))});
+        }
+        else
+        {
+            nums.push_back(stol(x));
+        }
     }
 
-    ll val = 0;
-    return to_string(val);
+    ll numFresh = 0;
+    vpairll done;
+    foe(range, fresh)
+    {
+        pairll curRange = range;
+        addToRange(curRange, done);
+        combineRange(done);
+    }
+
+    foe(val, done)
+    {
+        numFresh += val.second - val.first + 1;
+    }
+
+    return to_string(numFresh);
 }
 
 int main()
