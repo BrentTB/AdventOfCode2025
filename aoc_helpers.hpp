@@ -32,14 +32,14 @@ namespace aoc
         // Read all input files from the current directory
         // Returns a vector of strings, each containing the full content of one input file
         // Files are named 1.in.txt, 2.in.txt, etc.
-        vector<string> getInputFromFile() const
+        std::vector<std::string> getInputFromFile() const
         {
             return fileReader.getInputFromFile(partNum);
         }
 
         // Write output to a file in the appropriate part folder
         // Output file is named <fileNumber>-p<partNum>.out.txt
-        void writeOutputToFile(const string &output, int fileNumber) const
+        void writeOutputToFile(const std::string &output, int fileNumber) const
         {
             validator.writeOutputToFile(output, fileNumber);
         }
@@ -47,7 +47,7 @@ namespace aoc
         // Compare output file with expected file
         // Returns true if there are errors (mismatch), false if everything matches
         // Also increments internal error counter when errors are found
-        bool compareOutWithExpected(int fileNumber)
+        bool compareOutWithExpected(int fileNumber) const
         {
             return validator.compareOutWithExpected(fileNumber);
         }

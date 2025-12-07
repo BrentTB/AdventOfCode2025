@@ -6,8 +6,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 // OutputValidator class for Advent of Code
 // This class handles writing output files, comparing with expected results,
 // and tracking errors
@@ -17,74 +15,74 @@ namespace aoc
     class OutputValidator
     {
     private:
-        string partNum;
-        string inputPrefix;
-        string partFolder;
-        string currentDir;
-        int errorCount;
+        std::string partNum;
+        std::string inputPrefix;
+        std::string partFolder;
+        std::string currentDir;
+        mutable int errorCount;
 
     public:
         // Constructor: initializes configuration based on which part is being solved
         // part: 1 or 2 for part 1 or part 2
         OutputValidator(int part) : errorCount(0)
         {
-            this->partNum = to_string(part);
-            currentDir = filesystem::current_path().string() + "/";
-            inputPrefix = string("-p") + this->partNum;
+            this->partNum = std::to_string(part);
+            currentDir = std::filesystem::current_path().string() + "/";
+            inputPrefix = std::string("-p") + this->partNum;
             partFolder = "part" + this->partNum + "/";
         }
 
         // Write output to a file in the appropriate part folder
         // Output file is named <fileNumber>-p<partNum>.out.txt
-        void writeOutputToFile(const string &output, int fileNumber) const
+        void writeOutputToFile(const std::string &output, int fileNumber) const
         {
-            string filename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
-            ofstream file(filename);
+            std::string filename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".out.txt";
+            std::ofstream file(filename);
             if (!file.is_open())
             {
-                cerr << "Error: Could not open " << filename << " for writing.\n";
+                std::cerr << "Error: Could not open " << filename << " for writing.\n";
                 return;
             }
             file << output;
             file.close();
-            cout << "Wrote output to " << filename << "\n";
+            std::cout << "Wrote output to " << filename << "\n";
         }
 
         // Compare output file with expected file
         // Returns true if there are errors (mismatch), false if everything matches
         // Also increments internal error counter when errors are found
-        bool compareOutWithExpected(int fileNumber)
+        bool compareOutWithExpected(int fileNumber) const
         {
-            string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
-            string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
+            std::string outFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".out.txt";
+            std::string expectedFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".exp.txt";
 
-            ifstream outFile(outFilename);
-            ifstream expectedFile(expectedFilename);
+            std::ifstream outFile(outFilename);
+            std::ifstream expectedFile(expectedFilename);
 
             if (!outFile.is_open())
             {
-                cerr << "XXX: Error: Could not open " << outFilename << "\n";
+                std::cerr << "XXX: Error: Could not open " << outFilename << "\n";
                 errorCount++;
                 return true;
             }
             if (!expectedFile.is_open())
             {
-                cerr << "XXX: No .exp file found " << expectedFilename << "\n";
-                cerr << "Output:\n";
-                cerr << outFile.rdbuf() << "\n";
+                std::cerr << "XXX: No .exp file found " << expectedFilename << "\n";
+                std::cerr << "Output:\n";
+                std::cerr << outFile.rdbuf() << "\n";
                 errorCount++;
                 return true;
             }
 
-            string outContent, expectedContent;
-            string outContentLine, expectedContentLine;
+            std::string outContent, expectedContent;
+            std::string outContentLine, expectedContentLine;
             int lineNumber = 1;
             bool compareFiles;
             while (true)
             {
                 compareFiles = true;
-                bool haveOut = static_cast<bool>(getline(outFile, outContentLine));
-                bool haveExp = static_cast<bool>(getline(expectedFile, expectedContentLine));
+                bool haveOut = static_cast<bool>(std::getline(outFile, outContentLine));
+                bool haveExp = static_cast<bool>(std::getline(expectedFile, expectedContentLine));
 
                 if (!haveOut && !haveExp)
                     break; // both EOF, done
@@ -93,10 +91,10 @@ namespace aoc
                 {
                     // expected has extra lines
                     expectedContent += expectedContentLine + "\n";
-                    cout << "XXX: Expected has extra lines starting from line: " << to_string(lineNumber) << "\n";
-                    cout << "First extra line: " << expectedContentLine << "\n";
+                    std::cout << "XXX: Expected has extra lines starting from line: " << std::to_string(lineNumber) << "\n";
+                    std::cout << "First extra line: " << expectedContentLine << "\n";
                     // append remaining expected lines
-                    while (getline(expectedFile, expectedContentLine))
+                    while (std::getline(expectedFile, expectedContentLine))
                         expectedContent += expectedContentLine + "\n";
                     break;
                 }
@@ -106,14 +104,14 @@ namespace aoc
                     outContent += outContentLine + "\n";
                     if (lineNumber == 1)
                     {
-                        cout << "***: No expected value given\n";
+                        std::cout << "***: No expected value given\n";
                         compareFiles = false;
                         break;
                     }
-                    cout << "XXX: Output has extra lines starting from line: " << to_string(lineNumber) << "\n";
-                    cout << "First extra line: " << outContentLine << "\n";
+                    std::cout << "XXX: Output has extra lines starting from line: " << std::to_string(lineNumber) << "\n";
+                    std::cout << "First extra line: " << outContentLine << "\n";
                     // append remaining out lines
-                    while (getline(outFile, outContentLine))
+                    while (std::getline(outFile, outContentLine))
                         outContent += outContentLine + "\n";
                     break;
                 }
@@ -123,9 +121,9 @@ namespace aoc
                 expectedContent += expectedContentLine + "\n";
                 if (outContentLine != expectedContentLine)
                 {
-                    cout << "XXX: Difference found at line: " << to_string(lineNumber) << "\n";
-                    cout << "Output:   " << outContentLine << "\n";
-                    cout << "Expected: " << expectedContentLine << "\n";
+                    std::cout << "XXX: Difference found at line: " << std::to_string(lineNumber) << "\n";
+                    std::cout << "Output:   " << outContentLine << "\n";
+                    std::cout << "Expected: " << expectedContentLine << "\n";
                     break;
                 }
                 lineNumber++;
@@ -138,12 +136,12 @@ namespace aoc
             {
                 if (outContent == expectedContent)
                 {
-                    cout << "Output matches expected for file " << to_string(fileNumber) << ".\n";
+                    std::cout << "Output matches expected for file " << std::to_string(fileNumber) << ".\n";
                     return false;
                 }
                 else
                 {
-                    cout << "Output does NOT match expected for file " << to_string(fileNumber) << ".\n";
+                    std::cout << "Output does NOT match expected for file " << std::to_string(fileNumber) << ".\n";
                 }
             }
             errorCount++;
@@ -155,12 +153,12 @@ namespace aoc
         {
             if (errorCount > 0)
             {
-                cout << "\nERROR: " << to_string(errorCount) << " input"
+                std::cout << "\nERROR: " << std::to_string(errorCount) << " input"
                      << (errorCount == 1 ? " was " : "s were ") << "incorrect\n";
             }
             else
             {
-                cout << "\nSUCCESS: All inputs were correct\n";
+                std::cout << "\nSUCCESS: All inputs were correct\n";
             }
         }
     };
