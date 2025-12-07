@@ -174,4 +174,6 @@ int main()
             helper.compareOutWithExpected(i);
         }
     }
+
+    helper.printErrorSummary();
 }

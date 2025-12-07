@@ -24,12 +24,13 @@ private:
     string partFolder;
     string currentDir;
     int numInputs;
+    int errorCount;
 
 public:
     // Constructor: initializes configuration based on which part is being solved
     // part: 1 or 2 for part 1 or part 2
     // numInputs: optional, if provided, only reads the first numInputs input files
-    Helper(int part, int numInputs = -1) : numInputs(numInputs) {
+    Helper(int part, int numInputs = -1) : numInputs(numInputs), errorCount(0) {
         this->partNum = to_string(part);
         currentDir = filesystem::current_path().string() + "/";
         inputPrefix = string("-p") + this->partNum;
@@ -78,7 +79,8 @@ public:
 
     // Compare output file with expected file
     // Returns true if there are errors (mismatch), false if everything matches
-    bool compareOutWithExpected(int fileNumber) const {
+    // Also increments internal error counter when errors are found
+    bool compareOutWithExpected(int fileNumber) {
         string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
         string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
 
@@ -87,12 +89,14 @@ public:
 
         if (!outFile.is_open()) {
             cerr << "XXX: Error: Could not open " << outFilename << "\n";
+            errorCount++;
             return true;
         }
         if (!expectedFile.is_open()) {
             cerr << "XXX: No .exp file found " << expectedFilename << "\n";
             cerr << "Output:\n";
             cerr << outFile.rdbuf() << "\n";
+            errorCount++;
             return true;
         }
 
@@ -157,7 +161,18 @@ public:
                 cout << "Output does NOT match expected for file " << to_string(fileNumber) << ".\n";
             }
         }
+        errorCount++;
         return true;
+    }
+
+    // Print error summary
+    void printErrorSummary() const {
+        if (errorCount > 0) {
+            cout << "\nERROR: " << to_string(errorCount) << " input" 
+                 << (errorCount == 1 ? " was " : "s were ") << "incorrect\n";
+        } else {
+            cout << "\nSUCCESS: All inputs were correct\n";
+        }
     }
 };
 

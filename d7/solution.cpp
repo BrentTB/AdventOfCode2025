@@ -137,7 +137,6 @@ int main()
 
     aoc::Helper helper(partNum);
     auto inputs = helper.getInputFromFile();
-    int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
@@ -147,22 +146,15 @@ int main()
         {
             string out = p1(stringstream(input));
             helper.writeOutputToFile(out, i);
-            errors += helper.compareOutWithExpected(i);
+            helper.compareOutWithExpected(i);
         }
         else
         {
             string out = p2(stringstream(input));
             helper.writeOutputToFile(out, i);
-            errors += helper.compareOutWithExpected(i);
+            helper.compareOutWithExpected(i);
         }
     }
 
-    if (errors > 0)
-    {
-        print("\nERROR: " + to_string(errors) + " input" + (errors == 1 ? " was " : "s were ") + "incorrect");
-    }
-    else
-    {
-        print("\nSUCCESS: All inputs were correct");
-    }
+    helper.printErrorSummary();
 }
