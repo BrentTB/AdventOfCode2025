@@ -61,11 +61,11 @@ See `aoc_helpers.hpp` for the combined Helper class that uses both:
 int main()
 {
     const int partNum = 1;
-    aoc::Helper helper(partNum);
-    
+    aoc::AOCHelper helper(partNum);
+
     // Read input files
     auto inputs = helper.getInputFromFile();
-    
+
     // Process and write output
     for (int i = 1; i < inputs.size() + 1; i++)
     {
@@ -73,7 +73,7 @@ int main()
         helper.writeOutputToFile(out, i);
         helper.compareOutWithExpected(i);
     }
-    
+
     // Print summary
     helper.printErrorSummary();
 }

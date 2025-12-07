@@ -4,8 +4,10 @@
 #include <iostream>
 #include <regex>
 #include "../aoc_helpers.hpp"
+#include "../helpers/algorithm_utils.hpp"
 
 using namespace std;
+using namespace aoc;
 #define ll long long
 #define uint unsigned int
 #define ull unsigned long long
@@ -154,7 +156,7 @@ int main()
 
     const int partNum = 1; // set to 2 for part 2
 
-    aoc::Helper helper(partNum);
+    AOCHelper helper(partNum);
     auto inputs = helper.getInputFromFile();
 
     for (int i = 1; i < inputs.size() + 1; i++)

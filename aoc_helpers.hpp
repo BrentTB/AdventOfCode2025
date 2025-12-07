@@ -4,16 +4,16 @@
 #include "helpers/file_reader.hpp"
 #include "helpers/output_validator.hpp"
 
-// Helper module for Advent of Code file I/O operations
-// This module provides a Helper class that combines FileReader and OutputValidator
+// AOCHelper module for Advent of Code file I/O operations
+// This module provides a AOCHelper class that combines FileReader and OutputValidator
 // for backward compatibility with existing code.
 
 namespace aoc
 {
 
-    // Helper class for Advent of Code file I/O operations
+    // AOCHelper class for Advent of Code file I/O operations
     // This is a convenience wrapper around FileReader and OutputValidator
-    class Helper
+    class AOCHelper
     {
     private:
         int partNum;
@@ -24,7 +24,7 @@ namespace aoc
         // Constructor: initializes configuration based on which part is being solved
         // part: 1 or 2 for part 1 or part 2
         // numInputs: optional, if provided, only reads the first numInputs input files
-        Helper(int part, int numInputs = -1)
+        AOCHelper(int part, int numInputs = -1)
             : partNum(part), fileReader(numInputs), validator(part)
         {
         }

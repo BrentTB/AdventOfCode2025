@@ -4,8 +4,10 @@
 #include <iostream>
 #include <regex>
 #include "../aoc_helpers.hpp"
+#include "../helpers/algorithm_utils.hpp"
 
 using namespace std;
+using namespace aoc;
 #define ll long long
 #define uint unsigned int
 #define ull unsigned long long
@@ -94,91 +96,6 @@ string p1(stringstream input)
     return to_string(numFresh);
 }
 
-void addToRange(pairll range, vpairll &done)
-{
-    bool changed = false;
-    foe(val, done)
-    {
-        // completely enclosed by a done range
-        if (val.first <= range.first && val.second >= range.second)
-        {
-            changed = true;
-            continue;
-        }
-        // overlapping range on the right
-        else if (val.first >= range.first && val.second >= range.second && val.first <= range.second)
-        {
-            changed = true;
-            val.first = range.first;
-            continue;
-        }
-        // overlapping range on the left
-        else if (val.first <= range.first && val.second <= range.second && val.second >= range.first)
-        {
-            changed = true;
-            val.second = range.second;
-            continue;
-        }
-    }
-    // if it has no overlap, add it to the done array
-    if (!changed)
-    {
-        done.push_back(range);
-    }
-}
-
-void combineRange(vpairll &done)
-{
-    bool changed = true;
-    while (changed)
-    {
-        changed = false;
-        fo(i, 0, done.size())
-        {
-            fo(j, i + 1, done.size())
-            {
-                pairll range1 = done[i];
-                pairll range2 = done[j];
-                // overlapping range on the right
-                if (range2.first >= range1.first && range2.second >= range1.second && range2.first <= range1.second)
-                {
-                    changed = true;
-                    done[i].second = range2.second;
-                    done.erase(done.begin() + j);
-                    break;
-                }
-                // overlapping range on the left
-                else if (range2.first <= range1.first && range2.second <= range1.second && range2.second >= range1.first)
-                {
-                    changed = true;
-                    done[i].first = range2.first;
-                    done.erase(done.begin() + j);
-                    break;
-                }
-                // completely enclosed by a done range
-                else if (range2.first >= range1.first && range2.second <= range1.second)
-                {
-                    changed = true;
-                    done.erase(done.begin() + j);
-                    break;
-                }
-                // completely encloses a done range
-                else if (range2.first <= range1.first && range2.second >= range1.second)
-                {
-                    changed = true;
-                    done[i] = range2;
-                    done.erase(done.begin() + j);
-                    break;
-                }
-            }
-            if (changed)
-            {
-                break;
-            }
-        }
-    }
-}
-
 string p2(stringstream input)
 {
     vpairll fresh;
@@ -203,16 +120,10 @@ string p2(stringstream input)
         }
     }
 
-    ll numFresh = 0;
-    vpairll done;
-    foe(range, fresh)
-    {
-        pairll curRange = range;
-        addToRange(curRange, done);
-        combineRange(done);
-    }
+    AlgorithmUtils::combineRanges(fresh);
 
-    foe(val, done)
+    ll numFresh = 0;
+    foe(val, fresh)
     {
         numFresh += val.second - val.first + 1;
     }
@@ -227,7 +138,7 @@ int main()
 
     const int partNum = 2; // set to 2 for part 2
 
-    aoc::Helper helper(partNum);
+    AOCHelper helper(partNum);
     auto inputs = helper.getInputFromFile();
 
     for (int i = 1; i < inputs.size() + 1; i++)
