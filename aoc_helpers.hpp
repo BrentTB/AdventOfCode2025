@@ -159,10 +159,9 @@ public:
                 return false;
             } else {
                 cout << "Output does NOT match expected for file " << to_string(fileNumber) << ".\n";
-                errorCount++;
-                return true;
             }
         }
+        errorCount++;
         return true;
     }
 
