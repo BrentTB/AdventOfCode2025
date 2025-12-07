@@ -2,6 +2,19 @@
 
 This is my solutions to the 2025 Advent of Code
 
+## Helper Classes
+
+The project includes helper classes in the `helpers/` folder to streamline input/output operations and provide common algorithms:
+
+- **FileReader** (`helpers/file_reader.hpp`) - Handles reading input files from the filesystem
+- **OutputValidator** (`helpers/output_validator.hpp`) - Handles writing output files, comparing them with expected results, and tracking errors
+- **AlgorithmUtils** (`helpers/algorithm_utils.hpp`) - Provides common algorithms and utilities for solving coding problems:
+  - Dijkstra's shortest path algorithm
+  - Range combining and merging utilities
+  - GCD and LCM functions
+
+The main `aoc_helpers.hpp` file combines FileReader and OutputValidator into a single `Helper` class for convenience and backward compatibility.
+
 ## Solution.cpp
 
 - The `solution.cpp` file contains the c++ solution. You control whether it truns for part 1 or 2 with a boolean flag at the top of the code.
