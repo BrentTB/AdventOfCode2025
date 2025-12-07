@@ -1,6 +1,7 @@
 #ifndef AOC_HELPERS_HPP
 #define AOC_HELPERS_HPP
 
+#include <climits>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -40,13 +41,11 @@ public:
     // Files are named 1.in.txt, 2.in.txt, etc.
     vector<string> getInputFromFile() const {
         vector<string> inputs;
-        int i = 1;
-        while (true) {
-            // If numInputs is specified, stop after reading that many files
-            if (numInputs > 0 && i > numInputs) {
-                break;
-            }
-            
+        
+        // If numInputs is -1, read until file not found; otherwise read exactly numInputs files
+        int limit = (numInputs == -1) ? INT_MAX : numInputs;
+        
+        for (int i = 1; i <= limit; i++) {
             string filename = currentDir + to_string(i) + ".in.txt";
             ifstream file(filename);
             if (!file.is_open()) {
@@ -58,7 +57,6 @@ public:
                 inputs.back() += tmp + "\n";
             }
             file.close();
-            i++;
         }
         cout << "Loaded " << to_string(inputs.size()) << " input files for part " << partNum << ".\n";
         return inputs;
