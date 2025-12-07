@@ -34,11 +34,21 @@ namespace aoc
                 std::greater<std::pair<long long, T>>>
                 pq;
 
-            // Initialize distances
+            // Initialize all nodes to infinity distance
             for (const auto &node : graph)
             {
                 distances[node.first] = std::numeric_limits<long long>::max();
+                // Also initialize all neighbors
+                for (const auto &[neighbor, weight] : node.second)
+                {
+                    if (distances.find(neighbor) == distances.end())
+                    {
+                        distances[neighbor] = std::numeric_limits<long long>::max();
+                    }
+                }
             }
+            
+            // Set start distance to 0
             distances[start] = 0;
             pq.push({0, start});
 
@@ -57,7 +67,7 @@ namespace aoc
                     for (const auto &[neighbor, weight] : graph.at(node))
                     {
                         long long newDist = dist + weight;
-                        if (newDist < distances[neighbor])
+                        if (distances.find(neighbor) != distances.end() && newDist < distances[neighbor])
                         {
                             distances[neighbor] = newDist;
                             pq.push({newDist, neighbor});
@@ -131,39 +141,12 @@ namespace aoc
 
         // Add a range to a collection of ranges, merging if there's overlap
         // range: the new range to add
-        // ranges: existing collection of ranges (will be modified)
+        // ranges: existing collection of ranges (will be modified and combined)
         template <typename T>
         static void addToRanges(const std::pair<T, T> &range, std::vector<std::pair<T, T>> &ranges)
         {
-            bool changed = false;
-            for (auto &val : ranges)
-            {
-                // completely enclosed by an existing range
-                if (val.first <= range.first && val.second >= range.second)
-                {
-                    changed = true;
-                    return;
-                }
-                // overlapping range on the right
-                else if (val.first >= range.first && val.second >= range.second && val.first <= range.second)
-                {
-                    changed = true;
-                    val.first = range.first;
-                    return;
-                }
-                // overlapping range on the left
-                else if (val.first <= range.first && val.second <= range.second && val.second >= range.first)
-                {
-                    changed = true;
-                    val.second = range.second;
-                    return;
-                }
-            }
-            // if it has no overlap, add it to the collection
-            if (!changed)
-            {
-                ranges.push_back(range);
-            }
+            ranges.push_back(range);
+            combineRanges(ranges);
         }
 
         // Greatest Common Divisor using Euclidean algorithm
@@ -177,7 +160,7 @@ namespace aoc
         template <typename T>
         static T lcm(T a, T b)
         {
-            return a * b / gcd(a, b);
+            return a / gcd(a, b) * b;
         }
     };
 
