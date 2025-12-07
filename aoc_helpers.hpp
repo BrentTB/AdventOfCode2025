@@ -79,7 +79,7 @@ public:
 
     // Compare output file with expected file
     // Returns true if there are errors (mismatch), false if everything matches
-    // Increments internal error counter when errors are found
+    // Also increments internal error counter when errors are found
     bool compareOutWithExpected(int fileNumber) {
         string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
         string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
@@ -165,7 +165,7 @@ public:
         return true;
     }
 
-    // Print error summary and return the error count
+    // Print error summary
     void printErrorSummary() const {
         if (errorCount > 0) {
             cout << "\nERROR: " << to_string(errorCount) << " input" 
