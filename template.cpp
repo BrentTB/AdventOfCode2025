@@ -61,6 +61,9 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
         cout << "\n";          \
     }
 
+#define mapIter(map) \
+    for (auto [key, val] : map)
+
 string p1(stringstream input)
 {
     string x;

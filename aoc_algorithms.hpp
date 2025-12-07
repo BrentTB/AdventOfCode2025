@@ -3,11 +3,14 @@
 
 #include <algorithm>
 #include <limits>
+#include <map>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
+using namespace std;
 
 // AOCAlgorithms class for Advent of Code
 // This class provides common algorithms and utilities for solving coding problems
@@ -23,27 +26,29 @@ namespace aoc
         // start: starting node
         // Returns: map of node -> shortest distance from start
         template <typename T>
-        static std::unordered_map<T, long long> dijkstra(
-            const std::unordered_map<T, std::vector<std::pair<T, long long>>> &graph,
-            const T &start)
+        static map<T, long long> dijkstra(
+            const map<T, vector<pair<T, long long>>> &graph,
+            const T &start,
+            map<T, vector<T>> *outPath = nullptr)
         {
-            std::unordered_map<T, long long> distances;
-            std::priority_queue<
-                std::pair<long long, T>,
-                std::vector<std::pair<long long, T>>,
-                std::greater<std::pair<long long, T>>>
+            map<T, long long> distances;
+            map<T, T> predecessor; // tracks best parent for path reconstruction
+            priority_queue<
+                pair<long long, T>,
+                vector<pair<long long, T>>,
+                greater<pair<long long, T>>>
                 pq;
 
             // Initialize all nodes to infinity distance
             for (const auto &node : graph)
             {
-                distances[node.first] = std::numeric_limits<long long>::max();
+                distances[node.first] = numeric_limits<long long>::max();
                 // Also initialize all neighbors
                 for (const auto &[neighbor, weight] : node.second)
                 {
                     if (distances.find(neighbor) == distances.end())
                     {
-                        distances[neighbor] = std::numeric_limits<long long>::max();
+                        distances[neighbor] = numeric_limits<long long>::max();
                     }
                 }
             }
@@ -51,7 +56,7 @@ namespace aoc
             // Ensure start node is initialized (even if not in graph keys)
             if (distances.find(start) == distances.end())
             {
-                distances[start] = std::numeric_limits<long long>::max();
+                distances[start] = numeric_limits<long long>::max();
             }
 
             // Set start distance to 0
@@ -76,9 +81,44 @@ namespace aoc
                         if (distances.find(neighbor) != distances.end() && newDist < distances[neighbor])
                         {
                             distances[neighbor] = newDist;
+                            if (outPath)
+                            {
+                                predecessor[neighbor] = node;
+                            }
                             pq.push({newDist, neighbor});
                         }
                     }
+                }
+            }
+
+            if (outPath)
+            {
+                outPath->clear();
+
+                for (const auto &[target, distance] : distances)
+                {
+                    if (distance == numeric_limits<long long>::max())
+                    {
+                        continue; // unreachable node
+                    }
+
+                    vector<T> path;
+                    T current = target;
+
+                    // Walk backwards using predecessor map to rebuild path
+                    while (true)
+                    {
+                        path.push_back(current);
+                        auto it = predecessor.find(current);
+                        if (current == start || it == predecessor.end())
+                        {
+                            break;
+                        }
+                        current = it->second;
+                    }
+
+                    reverse(path.begin(), path.end());
+                    (*outPath)[target] = std::move(path);
                 }
             }
 
@@ -89,7 +129,7 @@ namespace aoc
         // Takes a vector of pairs representing ranges [first, second] and combines overlapping ranges
         // The input ranges will be modified in place
         template <typename T>
-        static void combineRanges(std::vector<std::pair<T, T>> &ranges)
+        static void combineRanges(vector<pair<T, T>> &ranges)
         {
             if (ranges.empty())
                 return;
@@ -102,8 +142,8 @@ namespace aoc
                 {
                     for (size_t j = i + 1; j < ranges.size(); j++)
                     {
-                        const std::pair<T, T> &range1 = ranges[i];
-                        const std::pair<T, T> &range2 = ranges[j];
+                        const pair<T, T> &range1 = ranges[i];
+                        const pair<T, T> &range2 = ranges[j];
 
                         // overlapping range on the right
                         if (range2.first >= range1.first && range2.second >= range1.second && range2.first <= range1.second)
@@ -145,16 +185,6 @@ namespace aoc
             }
         }
 
-        // Add a range to a collection of ranges, merging if there's overlap
-        // range: the new range to add
-        // ranges: existing collection of ranges (will be modified and combined)
-        template <typename T>
-        static void addToRanges(const std::pair<T, T> &range, std::vector<std::pair<T, T>> &ranges)
-        {
-            ranges.push_back(range);
-            combineRanges(ranges);
-        }
-
         // Greatest Common Divisor using Euclidean algorithm
         template <typename T>
         static T gcd(T a, T b)
@@ -169,6 +199,18 @@ namespace aoc
         static T lcm(T a, T b)
         {
             return a / gcd(a, b) * b;
+        }
+
+        static vector<string> splitString(const string &s, char delimiter)
+        {
+            vector<string> tokens;
+            string token;
+            istringstream tokenStream(s);
+            while (getline(tokenStream, token, delimiter))
+            {
+                tokens.push_back(token);
+            }
+            return tokens;
         }
     };
 
