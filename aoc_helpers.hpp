@@ -33,7 +33,7 @@ struct PartConfig {
 // Read all input files from the current directory
 // Returns a vector of strings, each containing the full content of one input file
 // Files are named 1.in.txt, 2.in.txt, etc.
-vector<string> getInputFromFile(const PartConfig& config, bool isPart1) {
+vector<string> getInputFromFile(const PartConfig& config) {
     vector<string> inputs;
     int i = 1;
     while (true) {
@@ -50,7 +50,7 @@ vector<string> getInputFromFile(const PartConfig& config, bool isPart1) {
         file.close();
         i++;
     }
-    cout << "Loaded " << to_string(inputs.size()) << " input files for " << (isPart1 ? "part 1." : "part 2.") << "\n";
+    cout << "Loaded " << to_string(inputs.size()) << " input files for part " << config.partNum << ".\n";
     return inputs;
 }
 

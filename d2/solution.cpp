@@ -130,7 +130,7 @@ int main()
     cin.tie(0);
 
     aoc::PartConfig config(part1);
-    auto inputs = aoc::getInputFromFile(config, part1);
+    auto inputs = aoc::getInputFromFile(config);
     int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
