@@ -148,7 +148,6 @@ int main()
 
     aoc::PartConfig config(part1);
     auto inputs = aoc::getInputFromFile(config);
-    int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
@@ -158,22 +157,13 @@ int main()
         {
             string out = p1(stringstream(input));
             aoc::writeOutputToFile(config, out, i);
-            errors += aoc::compareOutWithExpected(config, i);
+            aoc::compareOutWithExpected(config, i);
         }
         else
         {
             string out = p2(stringstream(input));
             aoc::writeOutputToFile(config, out, i);
-            errors += aoc::compareOutWithExpected(config, i);
+            aoc::compareOutWithExpected(config, i);
         }
-    }
-
-    if (errors > 0)
-    {
-        print("\nERROR: " + to_string(errors) + " input" + (errors == 1 ? " was " : "s were ") + "incorrect");
-    }
-    else
-    {
-        print("\nSUCCESS: All inputs were correct");
     }
 }
