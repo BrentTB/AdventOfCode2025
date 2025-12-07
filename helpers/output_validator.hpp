@@ -77,10 +77,9 @@ namespace aoc
             std::string outContent, expectedContent;
             std::string outContentLine, expectedContentLine;
             int lineNumber = 1;
-            bool compareFiles;
+            bool compareFiles = true;
             while (true)
             {
-                compareFiles = true;
                 bool haveOut = static_cast<bool>(std::getline(outFile, outContentLine));
                 bool haveExp = static_cast<bool>(std::getline(expectedFile, expectedContentLine));
 
