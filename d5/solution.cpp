@@ -54,7 +54,7 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
         cout << "\n";          \
     }
 
-const bool part1 = false; // set to false for part 2
+const int part = 2; // set to 2 for part 2
 
 /* File names:
 
@@ -244,7 +244,7 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    aoc::Helper helper(part1 ? 1 : 2);
+    aoc::Helper helper(part);
     auto inputs = helper.getInputFromFile();
     int errors = 0;
 
@@ -252,7 +252,7 @@ int main()
     {
         print("\n----- Input File " + to_string(i) + " -----");
         auto input = inputs[i - 1];
-        if (part1)
+        if (part == 1)
         {
             string out = p1(stringstream(input));
             helper.writeOutputToFile(out, i);
