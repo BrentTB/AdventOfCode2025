@@ -2,8 +2,8 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include "../aoc_helpers.hpp"
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_helper.hpp"
+#include "../aoc_algorithms.hpp"
 
 using namespace std;
 using namespace aoc;

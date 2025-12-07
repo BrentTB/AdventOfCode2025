@@ -9,12 +9,12 @@
 #include <utility>
 #include <vector>
 
-// AlgorithmUtils class for Advent of Code
+// AOCAlgorithms class for Advent of Code
 // This class provides common algorithms and utilities for solving coding problems
 namespace aoc
 {
 
-    class AlgorithmUtils
+    class AOCAlgorithms
     {
     public:
         // Dijkstra's shortest path algorithm
@@ -47,13 +47,13 @@ namespace aoc
                     }
                 }
             }
-            
+
             // Ensure start node is initialized (even if not in graph keys)
             if (distances.find(start) == distances.end())
             {
                 distances[start] = std::numeric_limits<long long>::max();
             }
-            
+
             // Set start distance to 0
             distances[start] = 0;
             pq.push({0, start});

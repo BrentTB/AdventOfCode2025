@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include "../aoc_helpers.hpp"
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_helper.hpp"
+#include "../aoc_algorithms.hpp"
 
 using namespace std;
 using namespace aoc;
@@ -120,7 +120,7 @@ string p2(stringstream input)
         }
     }
 
-    AlgorithmUtils::combineRanges(fresh);
+    AOCAlgorithms::combineRanges(fresh);
 
     ll numFresh = 0;
     foe(val, fresh)

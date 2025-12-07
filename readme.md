@@ -4,16 +4,16 @@ This is my solutions to the 2025 Advent of Code
 
 ## Helper Classes
 
-The project includes helper classes in the `helpers/` folder to streamline input/output operations and provide common algorithms:
+The project includes helper classes to streamline input/output operations and provide common algorithms:
 
 - **FileReader** (`helpers/file_reader.hpp`) - Handles reading input files from the filesystem
 - **OutputValidator** (`helpers/output_validator.hpp`) - Handles writing output files, comparing them with expected results, and tracking errors
-- **AlgorithmUtils** (`helpers/algorithm_utils.hpp`) - Provides common algorithms and utilities for solving coding problems:
+- **AOCAlgorithms** (`aoc_algorithms.hpp`) - Provides common algorithms and utilities for solving coding problems:
   - Dijkstra's shortest path algorithm
   - Range combining and merging utilities
   - GCD and LCM functions
 
-The main `aoc_helpers.hpp` file combines FileReader and OutputValidator into a single `Helper` class for convenience and backward compatibility.
+The main `aoc_helper.hpp` file combines FileReader and OutputValidator into a single `AOCHelper` class for convenience.
 
 ## Solution.cpp
 

@@ -1,11 +1,11 @@
 # Helper Classes Usage Examples
 
-## AlgorithmUtils
+## AOCAlgorithms
 
 ### Dijkstra's Shortest Path
 
 ```cpp
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_algorithms.hpp"
 
 // Create a graph as adjacency list
 std::unordered_map<int, std::vector<std::pair<int, long long>>> graph;
@@ -15,7 +15,7 @@ graph[2] = {{1, 2}, {3, 5}};   // Node 2 connects to nodes 1 and 3
 graph[3] = {};                 // Node 3 has no outgoing edges
 
 // Find shortest paths from node 0
-auto distances = aoc::AlgorithmUtils::dijkstra(graph, 0);
+auto distances = aoc::AOCAlgorithms::dijkstra(graph, 0);
 
 // distances[0] = 0, distances[1] = 3, distances[2] = 1, distances[3] = 4
 ```
@@ -23,32 +23,32 @@ auto distances = aoc::AlgorithmUtils::dijkstra(graph, 0);
 ### Combining Overlapping Ranges
 
 ```cpp
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_algorithms.hpp"
 
 // Combine overlapping or adjacent ranges
 std::vector<std::pair<int, int>> ranges = {{1, 5}, {3, 8}, {10, 15}, {12, 20}};
-aoc::AlgorithmUtils::combineRanges(ranges);
+aoc::AOCAlgorithms::combineRanges(ranges);
 // Result: {{1, 8}, {10, 20}}
 ```
 
 ### Adding a Range to Existing Ranges
 
 ```cpp
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_algorithms.hpp"
 
 std::vector<std::pair<int, int>> ranges = {{1, 5}, {10, 15}};
-aoc::AlgorithmUtils::addToRanges({3, 12}, ranges);
+aoc::AOCAlgorithms::addToRanges({3, 12}, ranges);
 // Result: range {3, 12} is added/merged with existing ranges
 ```
 
 ### GCD and LCM
 
 ```cpp
-#include "../helpers/algorithm_utils.hpp"
+#include "../aoc_algorithms.hpp"
 
 int a = 12, b = 8;
-int result_gcd = aoc::AlgorithmUtils::gcd(a, b);  // 4
-int result_lcm = aoc::AlgorithmUtils::lcm(a, b);  // 24
+int result_gcd = aoc::AOCAlgorithms::gcd(a, b);  // 4
+int result_lcm = aoc::AOCAlgorithms::lcm(a, b);  // 24
 ```
 
 ## FileReader and OutputValidator
@@ -56,7 +56,7 @@ int result_lcm = aoc::AlgorithmUtils::lcm(a, b);  // 24
 See `aoc_helpers.hpp` for the combined Helper class that uses both:
 
 ```cpp
-#include "../aoc_helpers.hpp"
+#include "../aoc_helper.hpp"
 
 int main()
 {
