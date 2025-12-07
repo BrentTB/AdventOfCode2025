@@ -244,8 +244,8 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    aoc::PartConfig config(part1);
-    auto inputs = aoc::getInputFromFile(config);
+    aoc::Helper helper(part1);
+    auto inputs = helper.getInputFromFile();
     int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
@@ -255,14 +255,14 @@ int main()
         if (part1)
         {
             string out = p1(stringstream(input));
-            aoc::writeOutputToFile(config, out, i);
-            errors += aoc::compareOutWithExpected(config, i);
+            helper.writeOutputToFile(out, i);
+            errors += helper.compareOutWithExpected(i);
         }
         else
         {
             string out = p2(stringstream(input));
-            aoc::writeOutputToFile(config, out, i);
-            errors += aoc::compareOutWithExpected(config, i);
+            helper.writeOutputToFile(out, i);
+            errors += helper.compareOutWithExpected(i);
         }
     }
 
