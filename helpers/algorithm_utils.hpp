@@ -48,6 +48,12 @@ namespace aoc
                 }
             }
             
+            // Ensure start node is initialized (even if not in graph keys)
+            if (distances.find(start) == distances.end())
+            {
+                distances[start] = std::numeric_limits<long long>::max();
+            }
+            
             // Set start distance to 0
             distances[start] = 0;
             pq.push({0, start});
@@ -96,8 +102,8 @@ namespace aoc
                 {
                     for (size_t j = i + 1; j < ranges.size(); j++)
                     {
-                        std::pair<T, T> range1 = ranges[i];
-                        std::pair<T, T> range2 = ranges[j];
+                        const std::pair<T, T> &range1 = ranges[i];
+                        const std::pair<T, T> &range2 = ranges[j];
 
                         // overlapping range on the right
                         if (range2.first >= range1.first && range2.second >= range1.second && range2.first <= range1.second)
@@ -153,6 +159,8 @@ namespace aoc
         template <typename T>
         static T gcd(T a, T b)
         {
+            a = a < 0 ? -a : a;
+            b = b < 0 ? -b : b;
             return b == 0 ? a : gcd(b, a % b);
         }
 
