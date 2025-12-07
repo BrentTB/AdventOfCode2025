@@ -35,6 +35,12 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
     }                      \
     cout << "\n";
 
+#define printalln(x)        \
+    for (auto zz : x)       \
+    {                       \
+        cout << zz << "\n"; \
+    }
+
 #define printallpair(x)            \
     for (auto zz : x)              \
     {                              \
