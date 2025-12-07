@@ -26,10 +26,10 @@ private:
 
 public:
     // Constructor: initializes configuration based on which part is being solved
-    // partNum: 1 or 2 for part 1 or part 2
+    // part: 1 or 2 for part 1 or part 2
     // numInputs: optional, if provided, only reads the first numInputs input files
-    Helper(int partNum, int numInputs = -1) : numInputs(numInputs) {
-        this->partNum = to_string(partNum);
+    Helper(int part, int numInputs = -1) : numInputs(numInputs) {
+        this->partNum = to_string(part);
         currentDir = filesystem::current_path().string() + "/";
         inputPrefix = string("-p") + this->partNum;
         partFolder = "part" + this->partNum + "/";
