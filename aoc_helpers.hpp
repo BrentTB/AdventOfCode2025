@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 // Helper module for Advent of Code file I/O operations
 // This module provides a class to handle input files, write output files,
 // and compare output with expected results.
@@ -16,86 +18,94 @@ namespace aoc {
 // Helper class for Advent of Code file I/O operations
 class Helper {
 private:
-    std::string partNum;
-    std::string inputPrefix;
-    std::string partFolder;
-    std::string currentDir;
+    string partNum;
+    string inputPrefix;
+    string partFolder;
+    string currentDir;
+    int numInputs;
 
 public:
     // Constructor: initializes configuration based on which part is being solved
-    Helper(bool isPart1) {
-        partNum = isPart1 ? "1" : "2";
-        currentDir = std::filesystem::current_path().string() + "/";
-        inputPrefix = std::string("-p") + partNum;
-        partFolder = "part" + partNum + "/";
+    // partNum: 1 or 2 for part 1 or part 2
+    // numInputs: optional, if provided, only reads the first numInputs input files
+    Helper(int partNum, int numInputs = -1) : numInputs(numInputs) {
+        this->partNum = to_string(partNum);
+        currentDir = filesystem::current_path().string() + "/";
+        inputPrefix = string("-p") + this->partNum;
+        partFolder = "part" + this->partNum + "/";
     }
 
     // Read all input files from the current directory
     // Returns a vector of strings, each containing the full content of one input file
     // Files are named 1.in.txt, 2.in.txt, etc.
-    std::vector<std::string> getInputFromFile() const {
-        std::vector<std::string> inputs;
+    vector<string> getInputFromFile() const {
+        vector<string> inputs;
         int i = 1;
         while (true) {
-            std::string filename = currentDir + std::to_string(i) + ".in.txt";
-            std::ifstream file(filename);
+            // If numInputs is specified, stop after reading that many files
+            if (numInputs > 0 && i > numInputs) {
+                break;
+            }
+            
+            string filename = currentDir + to_string(i) + ".in.txt";
+            ifstream file(filename);
             if (!file.is_open()) {
                 break;
             }
             inputs.push_back("");
-            std::string tmp;
-            while (std::getline(file, tmp)) {
+            string tmp;
+            while (getline(file, tmp)) {
                 inputs.back() += tmp + "\n";
             }
             file.close();
             i++;
         }
-        std::cout << "Loaded " << std::to_string(inputs.size()) << " input files for part " << partNum << ".\n";
+        cout << "Loaded " << to_string(inputs.size()) << " input files for part " << partNum << ".\n";
         return inputs;
     }
 
     // Write output to a file in the appropriate part folder
     // Output file is named <fileNumber>-p<partNum>.out.txt
-    void writeOutputToFile(const std::string& output, int fileNumber) const {
-        std::string filename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".out.txt";
-        std::ofstream file(filename);
+    void writeOutputToFile(const string& output, int fileNumber) const {
+        string filename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
+        ofstream file(filename);
         if (!file.is_open()) {
-            std::cerr << "Error: Could not open " << filename << " for writing.\n";
+            cerr << "Error: Could not open " << filename << " for writing.\n";
             return;
         }
         file << output;
         file.close();
-        std::cout << "Wrote output to " << filename << "\n";
+        cout << "Wrote output to " << filename << "\n";
     }
 
     // Compare output file with expected file
     // Returns true if there are errors (mismatch), false if everything matches
     bool compareOutWithExpected(int fileNumber) const {
-        std::string outFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".out.txt";
-        std::string expectedFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".exp.txt";
+        string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
+        string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
 
-        std::ifstream outFile(outFilename);
-        std::ifstream expectedFile(expectedFilename);
+        ifstream outFile(outFilename);
+        ifstream expectedFile(expectedFilename);
 
         if (!outFile.is_open()) {
-            std::cerr << "XXX: Error: Could not open " << outFilename << "\n";
+            cerr << "XXX: Error: Could not open " << outFilename << "\n";
             return true;
         }
         if (!expectedFile.is_open()) {
-            std::cerr << "XXX: No .exp file found " << expectedFilename << "\n";
-            std::cerr << "Output:\n";
-            std::cerr << outFile.rdbuf() << "\n";
+            cerr << "XXX: No .exp file found " << expectedFilename << "\n";
+            cerr << "Output:\n";
+            cerr << outFile.rdbuf() << "\n";
             return true;
         }
 
-        std::string outContent, expectedContent;
-        std::string outContentLine, expectedContentLine;
+        string outContent, expectedContent;
+        string outContentLine, expectedContentLine;
         int lineNumber = 1;
         bool compareFiles;
         while (true) {
             compareFiles = true;
-            bool haveOut = static_cast<bool>(std::getline(outFile, outContentLine));
-            bool haveExp = static_cast<bool>(std::getline(expectedFile, expectedContentLine));
+            bool haveOut = static_cast<bool>(getline(outFile, outContentLine));
+            bool haveExp = static_cast<bool>(getline(expectedFile, expectedContentLine));
 
             if (!haveOut && !haveExp)
                 break; // both EOF, done
@@ -103,10 +113,10 @@ public:
             if (!haveOut) {
                 // expected has extra lines
                 expectedContent += expectedContentLine + "\n";
-                std::cout << "XXX: Expected has extra lines starting from line: " << std::to_string(lineNumber) << "\n";
-                std::cout << "First extra line: " << expectedContentLine << "\n";
+                cout << "XXX: Expected has extra lines starting from line: " << to_string(lineNumber) << "\n";
+                cout << "First extra line: " << expectedContentLine << "\n";
                 // append remaining expected lines
-                while (std::getline(expectedFile, expectedContentLine))
+                while (getline(expectedFile, expectedContentLine))
                     expectedContent += expectedContentLine + "\n";
                 break;
             }
@@ -114,14 +124,14 @@ public:
             if (!haveExp) {
                 outContent += outContentLine + "\n";
                 if (lineNumber == 1) {
-                    std::cout << "***: No expected value given\n";
+                    cout << "***: No expected value given\n";
                     compareFiles = false;
                     break;
                 }
-                std::cout << "XXX: Output has extra lines starting from line: " << std::to_string(lineNumber) << "\n";
-                std::cout << "First extra line: " << outContentLine << "\n";
+                cout << "XXX: Output has extra lines starting from line: " << to_string(lineNumber) << "\n";
+                cout << "First extra line: " << outContentLine << "\n";
                 // append remaining out lines
-                while (std::getline(outFile, outContentLine))
+                while (getline(outFile, outContentLine))
                     outContent += outContentLine + "\n";
                 break;
             }
@@ -130,9 +140,9 @@ public:
             outContent += outContentLine + "\n";
             expectedContent += expectedContentLine + "\n";
             if (outContentLine != expectedContentLine) {
-                std::cout << "XXX: Difference found at line: " << std::to_string(lineNumber) << "\n";
-                std::cout << "Output: " << outContentLine << "\n";
-                std::cout << "Expected: " << expectedContentLine << "\n";
+                cout << "XXX: Difference found at line: " << to_string(lineNumber) << "\n";
+                cout << "Output: " << outContentLine << "\n";
+                cout << "Expected: " << expectedContentLine << "\n";
                 break;
             }
             lineNumber++;
@@ -143,10 +153,10 @@ public:
 
         if (compareFiles) {
             if (outContent == expectedContent) {
-                std::cout << "Output matches expected for file " << std::to_string(fileNumber) << ".\n";
+                cout << "Output matches expected for file " << to_string(fileNumber) << ".\n";
                 return false;
             } else {
-                std::cout << "Output does NOT match expected for file " << std::to_string(fileNumber) << ".\n";
+                cout << "Output does NOT match expected for file " << to_string(fileNumber) << ".\n";
             }
         }
         return true;

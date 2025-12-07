@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include "aoc_helpers.hpp"
+#include "../aoc_helpers.hpp"
 
 using namespace std;
 #define ll long long
@@ -99,7 +99,7 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    aoc::Helper helper(part1);
+    aoc::Helper helper(part1 ? 1 : 2);
     auto inputs = helper.getInputFromFile();
     int errors = 0;
 

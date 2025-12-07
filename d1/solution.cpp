@@ -146,7 +146,7 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    aoc::Helper helper(part1);
+    aoc::Helper helper(part1 ? 1 : 2);
     auto inputs = helper.getInputFromFile();
 
     for (int i = 1; i < inputs.size() + 1; i++)
