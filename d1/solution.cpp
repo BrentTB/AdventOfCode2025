@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include "../aoc_helpers.hpp"
 
 using namespace std;
 #define ll long long
@@ -51,112 +52,6 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
     }
 
 const bool part1 = true; // set to false for part 2
-
-const string partNum = part1 ? "1" : "2";
-const string currentDir = filesystem::current_path().string() + "/";
-const string inputPrefix = string("-p") + partNum;
-const string partFolder = "part" + partNum + "/";
-
-v(string) getInputFromFile()
-{
-    v(string) inputs;
-    int i = 1;
-    while (true)
-    {
-        string filename = currentDir + to_string(i) + ".in.txt";
-        ifstream file(filename);
-        if (!file.is_open())
-        {
-            break;
-        }
-        inputs.push_back("");
-        string tmp;
-        while (getline(file, tmp))
-        {
-            inputs.back() += tmp + "\n";
-        }
-        file.close();
-        i++;
-    }
-    print("Loaded " + to_string(inputs.size()) + " input files for " + (part1 ? "part 1." : "part 2."));
-    return inputs;
-}
-
-void writeOutputToFile(const string &output, int fileNumber)
-{
-    string filename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
-    ofstream file(filename);
-    if (!file.is_open())
-    {
-        cerr << "Error: Could not open " << filename << " for writing." << endl;
-        return;
-    }
-    file << output;
-    file.close();
-    print("Wrote output to " + filename);
-}
-
-void compareOutWithExpected(int fileNumber)
-{
-    string outFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".out.txt";
-    string expectedFilename = currentDir + partFolder + to_string(fileNumber) + inputPrefix + ".exp.txt";
-
-    ifstream outFile(outFilename);
-    ifstream expectedFile(expectedFilename);
-
-    if (!outFile.is_open())
-    {
-        cerr << "XXX: Error: Could not open " << outFilename << endl;
-        return;
-    }
-    if (!expectedFile.is_open())
-    {
-        cerr << "XXX: No .exp file found " << expectedFilename << endl;
-        cerr << "Output:" << endl;
-        cerr << outFile.rdbuf() << endl;
-        return;
-    }
-
-    string outContent, expectedContent;
-    string outContentLine, expectedContentLine;
-    int lineNumber = 1;
-    while (getline(outFile, outContentLine) && getline(expectedFile, expectedContentLine))
-    {
-        outContent += outContentLine + "\n";
-        expectedContent += expectedContentLine + "\n";
-        if (outContentLine != expectedContentLine)
-        {
-            print("XXX: Difference found at line: " + to_string(lineNumber));
-            print("Output: " + outContentLine);
-            print("Expected: " + expectedContentLine);
-            break;
-        }
-        lineNumber++;
-    }
-
-    if (getline(outFile, outContentLine))
-    {
-        outContent += outContentLine + "\n";
-        print("XXX: Output has extra lines starting from line: " + to_string(lineNumber));
-    }
-    if (getline(expectedFile, expectedContentLine))
-    {
-        expectedContent += expectedContentLine + "\n";
-        print("XXX: Expected has extra lines starting from line: " + to_string(lineNumber));
-    }
-
-    outFile.close();
-    expectedFile.close();
-
-    if (outContent == expectedContent)
-    {
-        print("Output matches expected for file " + to_string(fileNumber) + ".");
-    }
-    else
-    {
-        print("Output does NOT match expected for file " + to_string(fileNumber) + ".");
-    }
-}
 
 /* File names:
 
@@ -251,7 +146,9 @@ int main()
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    auto inputs = getInputFromFile();
+    aoc::PartConfig config(part1);
+    auto inputs = aoc::getInputFromFile(config, part1);
+    int errors = 0;
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
@@ -260,14 +157,23 @@ int main()
         if (part1)
         {
             string out = p1(stringstream(input));
-            writeOutputToFile(out, i);
-            compareOutWithExpected(i);
+            aoc::writeOutputToFile(config, out, i);
+            errors += aoc::compareOutWithExpected(config, i);
         }
         else
         {
             string out = p2(stringstream(input));
-            writeOutputToFile(out, i);
-            compareOutWithExpected(i);
+            aoc::writeOutputToFile(config, out, i);
+            errors += aoc::compareOutWithExpected(config, i);
         }
+    }
+
+    if (errors > 0)
+    {
+        print("\nERROR: " + to_string(errors) + " input" + (errors == 1 ? " was " : "s were ") + "incorrect");
+    }
+    else
+    {
+        print("\nSUCCESS: All inputs were correct");
     }
 }
