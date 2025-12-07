@@ -253,10 +253,13 @@ ll recur(vstr inputs, int row, int col, map<pairint, ll> &memo)
 {
     if (memo.find({row, col}) != memo.end())
         return memo[{row, col}];
+
     if (col < 0 || col >= inputs[0].size())
         return 0;
+
     if (row == inputs.size())
         return 1;
+
     if (inputs[row][col] == '^')
     {
         auto val = recur(inputs, row + 1, col - 1, memo) + recur(inputs, row + 1, col + 1, memo);

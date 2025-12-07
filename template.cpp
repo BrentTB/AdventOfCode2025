@@ -8,7 +8,6 @@ using namespace std;
 #define ll long long
 #define uint unsigned int
 #define ull unsigned long long
-// #define endl "\n"
 #define elif else if
 #define fo(i, a, b) for (ll i = a; i < (ll)b; i++)
 #define foe(a, b) for (auto a : b)
@@ -56,6 +55,7 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
 const bool part1 = true; // set to false for part 2
 
 // TODO: Extract this into a reusable module
+// it should auto find out how many inputs, but let you override that
 const string partNum = part1 ? "1" : "2";
 const string currentDir = filesystem::current_path().string() + "/";
 const string inputPrefix = string("-p") + partNum;
