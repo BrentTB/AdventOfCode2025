@@ -263,14 +263,14 @@ void addToRange(pairll range, vpairll &done)
             continue;
         }
         // overlapping range on the right
-        elif (val.first >= range.first && val.second >= range.second && val.first <= range.second)
+        else if (val.first >= range.first && val.second >= range.second && val.first <= range.second)
         {
             changed = true;
             val.first = range.first;
             continue;
         }
         // overlapping range on the left
-        elif (val.first <= range.first && val.second <= range.second && val.second >= range.first)
+        else if (val.first <= range.first && val.second <= range.second && val.second >= range.first)
         {
             changed = true;
             val.second = range.second;
@@ -305,7 +305,7 @@ void combineRange(vpairll &done)
                     break;
                 }
                 // overlapping range on the left
-                elif (range2.first <= range1.first && range2.second <= range1.second && range2.second >= range1.first)
+                else if (range2.first <= range1.first && range2.second <= range1.second && range2.second >= range1.first)
                 {
                     changed = true;
                     done[i].first = range2.first;
@@ -313,14 +313,14 @@ void combineRange(vpairll &done)
                     break;
                 }
                 // completely enclosed by a done range
-                elif (range2.first >= range1.first && range2.second <= range1.second)
+                else if (range2.first >= range1.first && range2.second <= range1.second)
                 {
                     changed = true;
                     done.erase(done.begin() + j);
                     break;
                 }
                 // completely encloses a done range
-                elif (range2.first <= range1.first && range2.second >= range1.second)
+                else if (range2.first <= range1.first && range2.second >= range1.second)
                 {
                     changed = true;
                     done[i] = range2;
