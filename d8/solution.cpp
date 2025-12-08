@@ -92,7 +92,6 @@ string p1(stringstream input, int inputNum)
             shortestDistances.push_back({distances[i][j], {i, j}});
         }
     }
-    print("");
     sort(shortestDistances.begin(), shortestDistances.end());
 
     vll numInCircuit(circuit.size(), 1);
