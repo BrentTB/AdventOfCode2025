@@ -68,7 +68,7 @@ ll getDistance(const tuple<ll, ll, ll> &a, const tuple<ll, ll, ll> &b)
 {
     return pow(get<0>(a) - get<0>(b), 2) + pow(get<1>(a) - get<1>(b), 2) + pow(get<2>(a) - get<2>(b), 2);
 }
-string p1(stringstream input)
+string p1(stringstream input, int inputNum)
 {
     vector<tuple<ll, ll, ll>> ranges;
     vll circuit;
@@ -96,7 +96,7 @@ string p1(stringstream input)
     sort(shortestDistances.begin(), shortestDistances.end());
 
     vll numInCircuit(circuit.size(), 1);
-    fo(i, 0, 1000) // change this to 10 for input 1
+    fo(i, 0, (inputNum == 1 ? 10 : 1000))
     {
         if (i == shortestDistances.size())
             break;
@@ -188,7 +188,7 @@ int main()
     {
         print("\n----- Input File " + to_string(i) + " -----");
         auto input = inputs[i - 1];
-        string out = partNum == 1 ? p1(stringstream(input)) : p2(stringstream(input));
+        string out = partNum == 1 ? p1(stringstream(input), i) : p2(stringstream(input));
         helper.writeOutputToFile(out, i);
         helper.compareOutWithExpected(i);
     }
