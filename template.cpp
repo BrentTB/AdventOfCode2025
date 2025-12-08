@@ -99,18 +99,9 @@ int main()
     {
         print("\n----- Input File " + to_string(i) + " -----");
         auto input = inputs[i - 1];
-        if (partNum == 1)
-        {
-            string out = p1(stringstream(input));
-            helper.writeOutputToFile(out, i);
-            helper.compareOutWithExpected(i);
-        }
-        else
-        {
-            string out = p2(stringstream(input));
-            helper.writeOutputToFile(out, i);
-            helper.compareOutWithExpected(i);
-        }
+        string out = partNum == 1 ? p1(stringstream(input)) : p2(stringstream(input));
+        helper.writeOutputToFile(out, i);
+        helper.compareOutWithExpected(i);
     }
 
     helper.printErrorSummary();
