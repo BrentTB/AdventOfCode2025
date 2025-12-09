@@ -132,50 +132,22 @@ string p2(stringstream input)
 {
     vpairll parts;
     string x;
-    ll maxGridSize = 0;
     print("start");
     while (getline(input, x))
     {
         auto split = AOCAlgorithms::splitString(x, ',');
         parts.push_back({stoll(split[0]), stoll(split[1])});
-        maxGridSize = max(maxGridSize, stoll(split[0]));
-        maxGridSize = max(maxGridSize, stoll(split[1]));
+    }
+
+    ll maxGridSize = 0;
+    auto partsSlim = AOCAlgorithms::compressGridPoints(parts);
+
+    foe(point, partsSlim)
+    {
+        maxGridSize = max(maxGridSize, point.first);
+        maxGridSize = max(maxGridSize, point.second);
     }
     maxGridSize += 2;
-    bool usedX[maxGridSize];
-    bool usedY[maxGridSize];
-    ll numX = 1, numY = 1;
-    ll newNumsX[maxGridSize], newNumsY[maxGridSize];
-
-    fill(usedX, usedX + maxGridSize, false);
-    fill(usedY, usedY + maxGridSize, false);
-    fill(newNumsX, newNumsX + maxGridSize, 0);
-    fill(newNumsY, newNumsY + maxGridSize, 0);
-    foe(part, parts)
-    {
-        usedX[part.first] = true;
-        usedY[part.second] = true;
-    }
-    fo(i, 0, maxGridSize)
-    {
-        if (usedX[i])
-        {
-            newNumsX[i] = numX;
-            numX++;
-        }
-        if (usedY[i])
-        {
-            newNumsY[i] = numY;
-            numY++;
-        }
-    }
-    vpairll partsSlim;
-    foe(part, parts)
-    {
-        partsSlim.push_back({newNumsX[part.first], newNumsY[part.second]});
-    }
-
-    maxGridSize = max(numX, numY) + 2;
     bool **grid = new bool *[maxGridSize];
     fo(i, 0, maxGridSize)
     {

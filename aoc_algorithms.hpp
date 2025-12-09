@@ -212,6 +212,48 @@ namespace aoc
             }
             return tokens;
         }
+
+        template <typename T>
+        static vector<pair<T, T>> compressGridPoints(vector<pair<T, T>> &points)
+        {
+            T maxGridSize = 0;
+            for (auto point : points)
+            {
+
+                maxGridSize = max(maxGridSize, point.first);
+                maxGridSize = max(maxGridSize, point.second);
+            }
+            maxGridSize += 2;
+            vector<bool> usedX(maxGridSize, false);
+            vector<bool> usedY(maxGridSize, false);
+            T numX = 1, numY = 1;
+            vector<T> newNumsX(maxGridSize, 0), newNumsY(maxGridSize, 0);
+
+            for (auto part : points)
+            {
+                usedX[part.first] = true;
+                usedY[part.second] = true;
+            }
+            for (T i = 0; i < maxGridSize; i++)
+            {
+                if (usedX[i])
+                {
+                    newNumsX[i] = numX;
+                    numX++;
+                }
+                if (usedY[i])
+                {
+                    newNumsY[i] = numY;
+                    numY++;
+                }
+            }
+            vector<pair<T, T>> partsSlim;
+            for (auto part : points)
+            {
+                partsSlim.push_back({newNumsX[part.first], newNumsY[part.second]});
+            }
+            return partsSlim;
+        }
     };
 
 } // namespace aoc
