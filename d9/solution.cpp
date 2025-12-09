@@ -64,9 +64,10 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
 #define mapIter(map) \
     for (auto [key, val] : map)
 
+auto aocAlg = AOCAlgorithms();
+
 string p1(stringstream input)
 {
-    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     while (getline(input, x))
@@ -131,7 +132,6 @@ bool isAllInsideTrue(bool **grid, pairll start, pairll end)
 }
 string p2(stringstream input)
 {
-    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     print("start");
@@ -414,7 +414,6 @@ bool has3BordersTrue(bool **grid, pairll start, pairll end)
 // but I'm not sure if it's correct for all inputs.
 string p2_2(stringstream input)
 {
-    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     ll maxGridSize = 0;
