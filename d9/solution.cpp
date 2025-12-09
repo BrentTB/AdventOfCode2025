@@ -66,11 +66,12 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
 
 string p1(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     while (getline(input, x))
     {
-        auto split = AOCAlgorithms::splitString(x, ',');
+        auto split = aocAlg.splitString(x, ',');
         parts.push_back({stol(split[0]), stol(split[1])});
     }
 
@@ -130,17 +131,18 @@ bool isAllInsideTrue(bool **grid, pairll start, pairll end)
 }
 string p2(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     print("start");
     while (getline(input, x))
     {
-        auto split = AOCAlgorithms::splitString(x, ',');
+        auto split = aocAlg.splitString(x, ',');
         parts.push_back({stoll(split[0]), stoll(split[1])});
     }
 
     ll maxGridSize = 0;
-    auto partsSlim = AOCAlgorithms::compressGridPoints(parts);
+    auto partsSlim = aocAlg.compressGridPoints(parts);
 
     foe(point, partsSlim)
     {
@@ -412,13 +414,14 @@ bool has3BordersTrue(bool **grid, pairll start, pairll end)
 // but I'm not sure if it's correct for all inputs.
 string p2_2(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     vpairll parts;
     string x;
     ll maxGridSize = 0;
     print("start");
     while (getline(input, x))
     {
-        auto split = AOCAlgorithms::splitString(x, ',');
+        auto split = aocAlg.splitString(x, ',');
         parts.push_back({stoll(split[0]), stoll(split[1])});
         maxGridSize = max(maxGridSize, stoll(split[0]));
         maxGridSize = max(maxGridSize, stoll(split[1]));

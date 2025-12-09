@@ -5,10 +5,10 @@
 #include <limits>
 #include <map>
 #include <queue>
-#include <unordered_map>
-#include <unordered_set>
+#include <string>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -16,7 +16,6 @@ using namespace std;
 // This class provides common algorithms and utilities for solving coding problems
 namespace aoc
 {
-
     class AOCAlgorithms
     {
     public:
@@ -26,7 +25,7 @@ namespace aoc
         // start: starting node
         // Returns: map of node -> shortest distance from start
         template <typename T>
-        static map<T, long long> dijkstra(
+        map<T, long long> dijkstra(
             const map<T, vector<pair<T, long long>>> &graph,
             const T &start,
             map<T, vector<T>> *outPath = nullptr)
@@ -129,7 +128,7 @@ namespace aoc
         // Takes a vector of pairs representing ranges [first, second] and combines overlapping ranges
         // The input ranges will be modified in place
         template <typename T>
-        static void combineRanges(vector<pair<T, T>> &ranges)
+        void combineRanges(vector<pair<T, T>> &ranges)
         {
             if (ranges.empty())
                 return;
@@ -187,7 +186,7 @@ namespace aoc
 
         // Greatest Common Divisor using Euclidean algorithm
         template <typename T>
-        static T gcd(T a, T b)
+        T gcd(T a, T b)
         {
             a = a < 0 ? -a : a;
             b = b < 0 ? -b : b;
@@ -196,12 +195,13 @@ namespace aoc
 
         // Least Common Multiple
         template <typename T>
-        static T lcm(T a, T b)
+        T lcm(T a, T b)
         {
             return a / gcd(a, b) * b;
         }
 
-        static vector<string> splitString(const string &s, char delimiter)
+        // Split string by delimiter
+        vector<string> splitString(const string &s, char delimiter)
         {
             vector<string> tokens;
             string token;
@@ -213,8 +213,9 @@ namespace aoc
             return tokens;
         }
 
+        // Compress grid points to remove unused coordinates
         template <typename T>
-        static vector<pair<T, T>> compressGridPoints(vector<pair<T, T>> &points)
+        vector<pair<T, T>> compressGridPoints(vector<pair<T, T>> &points)
         {
             T maxGridSize = 0;
             for (auto point : points)

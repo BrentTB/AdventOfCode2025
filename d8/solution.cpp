@@ -70,12 +70,13 @@ ll getDistance(const tuple<ll, ll, ll> &a, const tuple<ll, ll, ll> &b)
 }
 string p1(stringstream input, int inputNum)
 {
+    auto aocAlg = AOCAlgorithms();
     vector<tuple<ll, ll, ll>> ranges;
     vll circuit;
     string x;
     while (getline(input, x))
     {
-        auto parts = AOCAlgorithms::splitString(x, ',');
+        auto parts = aocAlg.splitString(x, ',');
         ranges.push_back({stoll(parts[0]), stoll(parts[1]), stoll(parts[2])});
         circuit.push_back(circuit.size());
     }
@@ -118,12 +119,13 @@ string p1(stringstream input, int inputNum)
 }
 string p2(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     vector<tuple<ll, ll, ll>> ranges;
     vll circuit;
     string x;
     while (getline(input, x))
     {
-        auto parts = AOCAlgorithms::splitString(x, ',');
+        auto parts = aocAlg.splitString(x, ',');
         ranges.push_back({stoll(parts[0]), stoll(parts[1]), stoll(parts[2])});
         circuit.push_back(circuit.size());
     }

@@ -66,6 +66,7 @@ T lcm(T a, T b) { return a * b / gcd(a, b); }
 
 string p1(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     string x;
     while (getline(input, x))
     {
@@ -76,6 +77,7 @@ string p1(stringstream input)
 }
 string p2(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     string x;
     while (getline(input, x))
     {

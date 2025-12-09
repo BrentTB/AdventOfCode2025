@@ -8,6 +8,10 @@
 #include "../aoc_algorithms.hpp"
 
 // Create a graph as adjacency list
+// Type, T, can be anything to identify nodes
+
+auto aocAlg = AOCAlgorithms();
+
 std::unordered_map<int, std::vector<std::pair<int, long long>>> graph;
 graph[0] = {{1, 4}, {2, 1}};  // Node 0 connects to node 1 (weight 4) and node 2 (weight 1)
 graph[1] = {{3, 1}};           // Node 1 connects to node 3 (weight 1)
@@ -15,7 +19,7 @@ graph[2] = {{1, 2}, {3, 5}};   // Node 2 connects to nodes 1 and 3
 graph[3] = {};                 // Node 3 has no outgoing edges
 
 // Find shortest paths from node 0
-auto distances = aoc::AOCAlgorithms::dijkstra(graph, 0);
+auto distances = aocAlg.dijkstra(graph, 0);
 
 // distances[0] = 0, distances[1] = 3, distances[2] = 1, distances[3] = 4
 ```
@@ -25,9 +29,11 @@ auto distances = aoc::AOCAlgorithms::dijkstra(graph, 0);
 ```cpp
 #include "../aoc_algorithms.hpp"
 
+auto aocAlg = AOCAlgorithms();
+
 // Combine overlapping or adjacent ranges
 std::vector<std::pair<int, int>> ranges = {{1, 5}, {3, 8}, {10, 15}, {12, 20}};
-aoc::AOCAlgorithms::combineRanges(ranges);
+aocAlg.combineRanges(ranges);
 // Result: {{1, 8}, {10, 20}}
 ```
 
@@ -36,8 +42,10 @@ aoc::AOCAlgorithms::combineRanges(ranges);
 ```cpp
 #include "../aoc_algorithms.hpp"
 
+auto aocAlg = AOCAlgorithms();
+
 std::vector<std::pair<int, int>> ranges = {{1, 5}, {10, 15}};
-aoc::AOCAlgorithms::addToRanges({3, 12}, ranges);
+aocAlg.addToRanges({3, 12}, ranges);
 // Result: range {3, 12} is added/merged with existing ranges
 ```
 
@@ -46,9 +54,11 @@ aoc::AOCAlgorithms::addToRanges({3, 12}, ranges);
 ```cpp
 #include "../aoc_algorithms.hpp"
 
+auto aocAlg = AOCAlgorithms();
+
 int a = 12, b = 8;
-int result_gcd = aoc::AOCAlgorithms::gcd(a, b);  // 4
-int result_lcm = aoc::AOCAlgorithms::lcm(a, b);  // 24
+int result_gcd = aocAlg.gcd(a, b);  // 4
+int result_lcm = aocAlg.lcm(a, b);  // 24
 ```
 
 ## FileReader and OutputValidator

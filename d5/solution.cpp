@@ -98,6 +98,7 @@ string p1(stringstream input)
 
 string p2(stringstream input)
 {
+    auto aocAlg = AOCAlgorithms();
     vpairll fresh;
     vll nums;
     string x;
@@ -120,7 +121,7 @@ string p2(stringstream input)
         }
     }
 
-    AOCAlgorithms::combineRanges(fresh);
+    aocAlg.combineRanges(fresh);
 
     ll numFresh = 0;
     foe(val, fresh)
