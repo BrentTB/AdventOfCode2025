@@ -87,8 +87,8 @@ string p2(stringstream input)
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+    // ios::sync_with_stdio(0);
+    // cin.tie(0);
 
     const int partNum = 1; // set to 2 for part 2
 
