@@ -219,11 +219,9 @@ namespace aoc
             T maxGridSize = 0;
             for (auto point : points)
             {
-
-                maxGridSize = max(maxGridSize, point.first);
-                maxGridSize = max(maxGridSize, point.second);
+                maxGridSize = max(maxGridSize, point.first + 1);
+                maxGridSize = max(maxGridSize, point.second + 1);
             }
-            maxGridSize += 2;
             vector<bool> usedX(maxGridSize, false);
             vector<bool> usedY(maxGridSize, false);
             T numX = 1, numY = 1;
