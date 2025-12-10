@@ -23,7 +23,7 @@ using namespace aoc;
 #define pairint pair<int, int>
 #define vpairll vector<pair<long long, long long>>
 #define vpairint vector<pair<int, int>>
-#define print(x) cout << (x) << "\n"
+#define print(x) cout << (x) << "\n";
 #define mod(a, b) ((a % b) + b) % b
 
 template <typename T>

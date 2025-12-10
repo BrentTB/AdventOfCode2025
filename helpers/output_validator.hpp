@@ -53,6 +53,7 @@ namespace aoc
         // Also increments internal error counter when errors are found
         bool compareOutWithExpected(int fileNumber) const
         {
+            // TODO: when expected file is empty, show the output
             std::string outFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".out.txt";
             std::string expectedFilename = currentDir + partFolder + std::to_string(fileNumber) + inputPrefix + ".exp.txt";
 
@@ -104,6 +105,8 @@ namespace aoc
                     if (lineNumber == 1)
                     {
                         std::cout << "***: No expected value given\n";
+                        std::cout << "Output:\n"
+                                  << outContent << "\n";
                         compareFiles = false;
                         break;
                     }
@@ -153,7 +156,7 @@ namespace aoc
             if (errorCount > 0)
             {
                 std::cout << "\nERROR: " << std::to_string(errorCount) << " input"
-                     << (errorCount == 1 ? " was " : "s were ") << "incorrect\n";
+                          << (errorCount == 1 ? " was " : "s were ") << "incorrect\n";
             }
             else
             {
