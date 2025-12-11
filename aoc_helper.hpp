@@ -23,16 +23,17 @@ namespace aoc
     public:
         // Constructor: initializes configuration based on which part is being solved
         // part: 1 or 2 for part 1 or part 2
-        // numInputs: optional, if provided, only reads the first numInputs input files
-        AOCHelper(int part, int numInputs = -1)
-            : partNum(part), fileReader(numInputs), validator(part)
+        // inputNums: optional, if provided, only reads the inputs specified in the vector
+
+        AOCHelper(int part, std::vector<int> inputNums = {})
+            : partNum(part), fileReader(inputNums), validator(part)
         {
         }
 
         // Read all input files from the current directory
         // Returns a vector of strings, each containing the full content of one input file
         // Files are named 1.in.txt, 2.in.txt, etc.
-        std::vector<std::string> getInputFromFile() const
+        std::vector<std::pair<std::string, int>> getInputFromFile() const
         {
             return fileReader.getInputFromFile(partNum);
         }

@@ -17,12 +17,12 @@ namespace aoc
     {
     private:
         std::string currentDir;
-        int numInputs;
+        std::vector<int> inputNums;
 
     public:
         // Constructor
-        // numInputs: optional, if provided, only reads the first numInputs input files
-        FileReader(int numInputs = -1) : numInputs(numInputs)
+        // inputs: optional, if provided, only reads the inputs specified in the vector
+        FileReader(std::vector<int> inputNums = {}) : inputNums(inputNums)
         {
             currentDir = std::filesystem::current_path().string() + "/";
         }
@@ -30,28 +30,40 @@ namespace aoc
         // Read all input files from the current directory
         // Returns a vector of strings, each containing the full content of one input file
         // Files are named 1.in.txt, 2.in.txt, etc.
-        std::vector<std::string> getInputFromFile(int partNum) const
+        std::vector<std::pair<std::string, int>> getInputFromFile(int partNum) const
         {
-            std::vector<std::string> inputs;
+            std::vector<std::pair<std::string, int>> inputs;
 
-            // If numInputs is -1, read until file not found; otherwise read exactly numInputs files
-            int limit = (numInputs == -1) ? INT_MAX : numInputs;
-
-            for (int i = 1; i <= limit; i++)
+            int index = 0;
+            while (true)
             {
+                int i;
+                if (inputNums.size() > 0)
+                {
+                    if (index >= (int)inputNums.size())
+                    {
+                        break;
+                    }
+                    i = inputNums[index];
+                }
+                else
+                {
+                    i = index + 1;
+                }
                 std::string filename = currentDir + std::to_string(i) + ".in.txt";
                 std::ifstream file(filename);
                 if (!file.is_open())
                 {
                     break;
                 }
-                inputs.push_back("");
+                inputs.push_back({"", i});
                 std::string tmp;
                 while (std::getline(file, tmp))
                 {
-                    inputs.back() += tmp + "\n";
+                    inputs.back().first += tmp + "\n";
                 }
                 file.close();
+                index++;
             }
             std::cout << "Loaded " << std::to_string(inputs.size()) << " input files for part " << std::to_string(partNum) << ".\n";
             return inputs;

@@ -79,9 +79,10 @@ int main()
     // Process and write output
     for (int i = 1; i < inputs.size() + 1; i++)
     {
-        string out = processInput(inputs[i - 1]);
-        helper.writeOutputToFile(out, i);
-        helper.compareOutWithExpected(i);
+        auto input = inputs[i - 1];
+        string out = processInput(input.first);
+        helper.writeOutputToFile(out, input.second);
+        helper.compareOutWithExpected(input.second);
     }
 
     // Print summary
