@@ -5,7 +5,7 @@
 ### Dijkstra's Shortest Path
 
 ```cpp
-#include "../aoc_algorithms.hpp"
+#include "../aoc_classes/aoc_algorithms.hpp"
 
 // Create a graph as adjacency list
 // Type, T, can be anything to identify nodes
@@ -27,7 +27,7 @@ auto distances = aocAlg.dijkstra(graph, 0);
 ### Combining Overlapping Ranges
 
 ```cpp
-#include "../aoc_algorithms.hpp"
+#include "../aoc_classes/aoc_algorithms.hpp"
 
 auto aocAlg = AOCAlgorithms();
 
@@ -40,7 +40,7 @@ aocAlg.combineRanges(ranges);
 ### Adding a Range to Existing Ranges
 
 ```cpp
-#include "../aoc_algorithms.hpp"
+#include "../aoc_classes/aoc_algorithms.hpp"
 
 auto aocAlg = AOCAlgorithms();
 
@@ -52,7 +52,7 @@ aocAlg.addToRanges({3, 12}, ranges);
 ### GCD and LCM
 
 ```cpp
-#include "../aoc_algorithms.hpp"
+#include "../aoc_classes/aoc_algorithms.hpp"
 
 auto aocAlg = AOCAlgorithms();
 
@@ -66,7 +66,7 @@ int result_lcm = aocAlg.lcm(a, b);  // 24
 See `aoc_helpers.hpp` for the combined Helper class that uses both:
 
 ```cpp
-#include "../aoc_helper.hpp"
+#include "../aoc_classes/aoc_helper.hpp"
 
 int main()
 {

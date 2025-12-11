@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include "../aoc_helper.hpp"
-#include "../aoc_algorithms.hpp"
+#include "../aoc_classes/aoc_helper.hpp"
+#include "../aoc_classes/aoc_algorithms.hpp"
 
 using namespace std;
 using namespace aoc;
