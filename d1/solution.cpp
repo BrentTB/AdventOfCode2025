@@ -136,19 +136,19 @@ int main()
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
-        print("\n----- Input File " + to_string(i) + " -----");
         auto input = inputs[i - 1];
+        print("\n----- Input File " + to_string(input.second) + " -----");
         if (partNum == 1)
         {
-            string out = p1(stringstream(input));
-            helper.writeOutputToFile(out, i);
-            helper.compareOutWithExpected(i);
+            string out = p1(stringstream(input.first));
+            helper.writeOutputToFile(out, input.second);
+            helper.compareOutWithExpected(input.second);
         }
         else
         {
-            string out = p2(stringstream(input));
-            helper.writeOutputToFile(out, i);
-            helper.compareOutWithExpected(i);
+            string out = p2(stringstream(input.first));
+            helper.writeOutputToFile(out, input.second);
+            helper.compareOutWithExpected(input.second);
         }
     }
 

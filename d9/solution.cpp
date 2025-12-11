@@ -495,11 +495,11 @@ int main()
 
     for (int i = 1; i < inputs.size() + 1; i++)
     {
-        print("\n----- Input File " + to_string(i) + " -----");
         auto input = inputs[i - 1];
-        string out = partNum == 1 ? p1(stringstream(input)) : p2(stringstream(input));
-        helper.writeOutputToFile(out, i);
-        helper.compareOutWithExpected(i);
+        print("\n----- Input File " + to_string(input.second) + " -----");
+        string out = partNum == 1 ? p1(stringstream(input.first)) : p2(stringstream(input.first));
+        helper.writeOutputToFile(out, input.second);
+        helper.compareOutWithExpected(input.second);
     }
 
     helper.printErrorSummary();
